@@ -1,2 +1,2 @@
 # InShot
-Recreating a Vdeo Editing App UIKit
+Recreating a Vdeo Editing App SwiftUi
