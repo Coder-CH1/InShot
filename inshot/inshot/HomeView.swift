@@ -15,8 +15,6 @@ struct HomeView: View {
                     HomeViewContents()
                     Spacer()
                 }
-            }
-            ZStack {
                 if !showingModal {
                     TermsOfServiceModalView(agreeAndContinueButton: $showingModal)
                 }
@@ -590,7 +588,7 @@ struct FifthSignUpView_Previews: PreviewProvider {
 struct TermsOfServiceModalView: View {
     @Binding var agreeAndContinueButton: Bool
     var body: some View {
-        VStack {
+        //VStack {
             ZStack {
 Color.black.opacity(0.4)
                     .edgesIgnoringSafeArea(.vertical)
@@ -650,7 +648,7 @@ Color.black.opacity(0.4)
                 .background(Color.white)
                 .cornerRadius(20).shadow(radius: 20)
             }
-        }
+        //}
     }
 }
 
