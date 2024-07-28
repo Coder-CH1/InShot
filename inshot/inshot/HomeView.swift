@@ -127,7 +127,7 @@ struct UserRegistration: View {
 
 struct SignInView: View {
     @State var showNewView = false
-    @State var text = ""
+    @State var email = ""
     @State var password = ""
     @State var continueButton = false
     @State var showSignUpView = false
@@ -165,7 +165,7 @@ struct SignInView: View {
                         .foregroundColor(.black)
                 }
                 VStack(spacing: 20) {
-                    TextField("Enter email address", text: $text)
+                    TextField("Enter email address", text: $email)
                         .keyboardType(.emailAddress)
                         .font(isEmailFocused ? .system(size: 20, weight: .bold) : .system(size: 15, weight: .regular))
                         .padding()
@@ -197,7 +197,15 @@ struct SignInView: View {
                     .frame(width: UIScreen.main.bounds.width/1.1, height: 50)
                     .background(.gray.opacity(0.2))
                     .cornerRadius(10)
-                    VStack(spacing: 5) {
+                    Button {
+                        print("")
+                    } label: {
+                        Text("Forgot password?")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(Color(red: 0/255, green: 230/255, blue: 255/255))
+                    }
+                }
+                    Spacer()
                     HStack {
                         Text("Don't have an account?")
                         Button {
@@ -209,19 +217,9 @@ struct SignInView: View {
                         }
                         .fullScreenCover(isPresented: $showSignUpView) {
                             FirstSignUpView()
-                        }
                     }
-                    Button {
-                        print("")
-                    } label: {
-                        Text("Forgot password?")
-                            .font(.system(size: 16, weight: .bold))
-                            .foregroundColor(Color(red: 0/255, green: 230/255, blue: 255/255))
-                    }
-                  }
                 }
             }
-            Spacer()
         }
     }
 }
