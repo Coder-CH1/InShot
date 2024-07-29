@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct HomeView: View {
-        @State var showingModal = false
-        var body: some View {
-            ZStack {
-                VStack {
-                    HomeViewContents()
-                    Spacer()
-                }
-                if !showingModal {
-                    TermsOfServiceModalView(agreeAndContinueButton: $showingModal)
-                }
+    @State var showingModal = false
+    var body: some View {
+        ZStack {
+            VStack {
+                HomeViewContents()
+                Spacer()
+            }
+            if !showingModal {
+                TermsOfServiceModalView(agreeAndContinueButton: $showingModal)
             }
         }
     }
+}
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
@@ -98,8 +98,8 @@ struct UserRegistration: View {
                 .frame(width: UIScreen.main.bounds.width/1.2, height: 45)
                 .cornerRadius(22)
                 .overlay(
-                RoundedRectangle(cornerRadius: 22)
-                    .stroke(Color.gray, lineWidth: 1)
+                    RoundedRectangle(cornerRadius: 22)
+                        .stroke(Color.gray, lineWidth: 1)
                 )
                 .fullScreenCover(isPresented: $signInView) {
                     SignInView(viewModel: UserViewModel())
@@ -126,9 +126,13 @@ struct UserRegistration: View {
 }
 
 struct SignInView: View {
+    @State var isSecure = true
+    @State var isTyping = false
     @State var showNewView = false
     @State var continueButton = false
     @State var showSignUpView = false
+    @State var continueButtonColor = Color.gray.opacity(0.2)
+    @State var fontButtonColor = Color.gray
     @Environment(\.presentationMode) var presentationMode
     @FocusState var isEmailFocused: Bool
     @FocusState var isPasswordFocused: Bool
@@ -164,7 +168,8 @@ struct SignInView: View {
                         .foregroundColor(.black)
                 }
                 VStack(spacing: 20) {
-                    TextField("Enter email address", text: $viewModel.email)
+                    TextField(" Enter email address", text: $viewModel.email)
+                        .padding()
                         .autocapitalization(.none)
                         .keyboardType(.emailAddress)
                         .disableAutocorrection(true)
@@ -177,26 +182,71 @@ struct SignInView: View {
                                 .stroke(isEmailFocused ? Color(red: 0/255, green: 230/255, blue: 255/255) : .clear, lineWidth: 1)
                         )
                         .focused($isEmailFocused)
-                    SecureField("Enter password", text: $viewModel.password)
-                        .keyboardType(.asciiCapable)
-                        .font(isPasswordFocused ? .system(size: 20, weight: .bold) : .system(size: 15, weight: .regular))
-                        .padding()
-                        .frame(width: UIScreen.main.bounds.width/1.1, height: 50)
-                        .background(.gray.opacity(0.1))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(isPasswordFocused ? Color(red: 0/255, green: 230/255, blue: 255/255) : .clear, lineWidth: 1)
-                        )
-                        .focused($isPasswordFocused)
+                    ZStack(alignment: .trailing) {
+                        if isSecure {
+                            SecureField(" Enter password", text: $viewModel.password)
+                                .padding()
+                                .keyboardType(.asciiCapable)
+                                .font(isPasswordFocused ? .system(size: 20, weight: .bold) : .system(size: 15, weight: .regular))
+                                .padding()
+                                .frame(width: UIScreen.main.bounds.width/1.1, height: 50)
+                                .background(.gray.opacity(0.1))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(isPasswordFocused ? Color(red: 0/255, green: 230/255, blue: 255/255) : .clear, lineWidth: 1)
+                                )
+                                .focused($isPasswordFocused)
+                                .onChange(of: viewModel.password) { newValue in
+                                    if !newValue.isEmpty {
+                                        isTyping = true
+                                        continueButtonColor = Color(red: 0/255, green: 230/255, blue: 255/255)
+                                        fontButtonColor = .white
+                                    } else {
+                                        isTyping = false
+                                        continueButtonColor = Color.gray.opacity(0.2)
+                                        fontButtonColor = .gray
+                                    }
+                                }
+                        } else {
+                            TextField(" Enter password", text: $viewModel.password)
+                                .padding()
+                                .keyboardType(.asciiCapable)
+                                .font(isPasswordFocused ? .system(size: 20, weight: .bold) : .system(size: 15, weight: .regular))
+                                .padding()
+                                .frame(width: UIScreen.main.bounds.width/1.1, height: 50)
+                                .background(.gray.opacity(0.1))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(isPasswordFocused ? Color(red: 0/255, green: 230/255, blue: 255/255) : .clear, lineWidth: 1)
+                                )
+                                .focused($isPasswordFocused)
+                                .onChange(of: viewModel.password) { newValue in
+                                    if !newValue.isEmpty {
+                                        isTyping = true
+                                    } else {
+                                        isTyping = false
+                                    }
+                                }
+                        }
+                        Button  {
+                            isSecure.toggle()
+                        } label: {
+                            if isTyping {
+                                Image(systemName: isSecure ? "eyebrow" : "eye")
+                                    .foregroundColor(.black)
+                                    .padding(.trailing, 10)
+                            }
+                        }
+                    }
                     Button {
                         continueButton.toggle()
                     } label: {
                         Text("Continue")
                             .font(.system(size: 18, weight: .bold))
-                            .foregroundColor(.gray)
+                            .foregroundColor(fontButtonColor)
                     }
                     .frame(width: UIScreen.main.bounds.width/1.1, height: 50)
-                    .background(.gray.opacity(0.2))
+                    .background(continueButtonColor)
                     .cornerRadius(10)
                     Button {
                         print("")
@@ -206,18 +256,18 @@ struct SignInView: View {
                             .foregroundColor(Color(red: 0/255, green: 230/255, blue: 255/255))
                     }
                 }
-                    Spacer()
-                    HStack {
-                        Text("Don't have an account?")
-                        Button {
-                            showSignUpView.toggle()
-                        } label: {
-                            Text("Sign up")
-                                .font(.system(size: 16, weight: .bold))
-                                .foregroundColor(Color(red: 0/255, green: 230/255, blue: 255/255))
-                        }
-                        .fullScreenCover(isPresented: $showSignUpView) {
-                            FirstSignUpView(viewModel: UserViewModel())
+                Spacer()
+                HStack {
+                    Text("Don't have an account?")
+                    Button {
+                        showSignUpView.toggle()
+                    } label: {
+                        Text("Sign up")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(Color(red: 0/255, green: 230/255, blue: 255/255))
+                    }
+                    .fullScreenCover(isPresented: $showSignUpView) {
+                        FirstSignUpView(viewModel: UserViewModel())
                     }
                 }
             }
@@ -226,8 +276,9 @@ struct SignInView: View {
 }
 
 struct FirstSignUpView: View {
-    //@State var email = ""
     @State var continueButton = false
+    @State var continueButtonColor = Color.gray.opacity(0.2)
+    @State var fontButtonColor = Color.gray
     @FocusState var isEmailFocused: Bool
     @StateObject var viewModel = UserViewModel()
     var body: some View {
@@ -239,7 +290,8 @@ struct FirstSignUpView: View {
                 Text("What's your email address?")
                     .font(.system(size: 25, weight: .black))
                     .foregroundColor(.black)
-                TextField("Enter email address", text: $viewModel.email)
+                TextField(" Enter email address", text: $viewModel.email)
+                    .padding()
                     .keyboardType(.emailAddress)
                     .font(isEmailFocused ? .system(size: 20, weight: .bold) : .system(size: 15, weight: .regular))
                     .padding()
@@ -250,15 +302,24 @@ struct FirstSignUpView: View {
                             .stroke(isEmailFocused ? Color(red: 0/255, green: 230/255, blue: 255/255) : .clear, lineWidth: 1)
                     )
                     .focused($isEmailFocused)
+                    .onChange(of: viewModel.email) { newValue in
+                        if !newValue.isEmpty {
+                            continueButtonColor = Color(red: 0/255, green: 230/255, blue: 255/255)
+                            fontButtonColor = .white
+                        } else {
+                            continueButtonColor = Color.gray.opacity(0.2)
+                            fontButtonColor = .gray
+                        }
+                    }
                 Button {
                     continueButton.toggle()
                 } label: {
                     Text("Continue")
                         .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(.gray)
+                        .foregroundColor(fontButtonColor)
                 }
                 .frame(width: UIScreen.main.bounds.width/1.1, height: 50)
-                .background(.gray.opacity(0.2))
+                .background(continueButtonColor)
                 .cornerRadius(10)
                 VStack {
                     Text("By continuing, you agree to our")
@@ -311,17 +372,15 @@ struct TopView: View {
     }
 }
 
-//struct MiddleView: View {
-//    var body: some View {
-//
-//    }
-//}
-
 struct SecondSignUpView: View {
     @State var continueButton = false
     @State var showNewView = false
     @State var code = Array(repeating: "", count: 6)
+    @State var continueButtonColor = Color.gray.opacity(0.2)
+    @State var fontButtonColor = Color.gray
+    @StateObject var viewModel: UserViewModel
     @Environment(\.presentationMode) var presentationMode
+    @FocusState var isDigitNumFocused: Bool
     var body: some View {
         VStack {
             HStack(spacing: 100) {
@@ -353,11 +412,27 @@ struct SecondSignUpView: View {
                     ForEach(0..<6, id: \.self) {
                         index in
                         TextField("", text: $code[index])
+                            .padding()
+                            .font(isDigitNumFocused ? .system(size: 20, weight: .bold) : .system(size: 15, weight: .regular))
                             .keyboardType(.numberPad)
                             .frame(width: 50, height: 50)
                             .background(.gray.opacity(0.2))
                             .cornerRadius(5)
                             .multilineTextAlignment(.center)
+                            .focused($isDigitNumFocused)
+                                .overlay (
+                                RoundedRectangle(cornerRadius: 5)
+                                    .stroke(code[index].isEmpty ? Color.clear : Color(red: 0/255, green: 230/255, blue: 255/255), lineWidth: 1)
+                        )
+                                .onChange(of: code[index]) { newValue in
+                                    if !newValue.isEmpty {
+                                        continueButtonColor = Color(red: 0/255, green: 230/255, blue: 255/255)
+                                        fontButtonColor = .white
+                                    } else {
+                                        continueButtonColor = Color.gray.opacity(0.2)
+                                        fontButtonColor = .gray
+                                    }
+                                }
                     }
                 }
                 Button {
@@ -365,10 +440,10 @@ struct SecondSignUpView: View {
                 } label: {
                     Text("Continue")
                         .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(.gray)
+                        .foregroundColor(fontButtonColor)
                 }
                 .frame(width: UIScreen.main.bounds.width/1.1, height: 50)
-                .background(.gray.opacity(0.2))
+                .background(continueButtonColor)
                 .cornerRadius(10)
             }
             Spacer()
@@ -378,12 +453,13 @@ struct SecondSignUpView: View {
 
 struct SecondSignUpView_Previews: PreviewProvider {
     static var previews: some View {
-        SecondSignUpView()
+        SecondSignUpView(viewModel: UserViewModel())
     }
 }
 
 struct ThirdSignUpView: View {
-    //@State var password = ""
+    @State var isSecure = true
+    @State var isTyping = false
     @State var continueButton = false
     @State var showNewView = false
     @State var code = Array(repeating: "", count: 6)
@@ -404,27 +480,70 @@ struct ThirdSignUpView: View {
                 .fullScreenCover(isPresented: $showNewView) {
                     SignInView(viewModel: UserViewModel())
                 }
-                    .frame(width: 50)
+                .frame(width: 150)
                 Text("Sign up")
                     .font(.system(size: 20, weight: .black))
                     .foregroundColor(.black)
             }
+            .padding(.trailing, 140)
             Spacer()
                 .frame(height: 100)
             VStack(alignment: .leading, spacing: 40) {
                 Text("Create password")
                     .font(.system(size: 25, weight: .black))
                     .foregroundColor(.black)
-                SecureField("Enter password", text: $viewModel.password)
-                    .font(isPasswordFocused ? .system(size: 20, weight: .bold) : .system(size: 15, weight: .regular))
-                    .padding()
-                    .frame(width: UIScreen.main.bounds.width/1.1, height: 50)
-                    .background(.gray.opacity(0.1))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(isPasswordFocused ? Color(red: 0/255, green: 230/255, blue: 255/255) : .clear, lineWidth: 1)
-                    )
-                    .focused($isPasswordFocused)
+                ZStack(alignment: .trailing) {
+                    if isSecure {
+                        SecureField(" Enter password", text: $viewModel.password)
+                            .padding()
+                            .keyboardType(.asciiCapable)
+                            .font(isPasswordFocused ? .system(size: 20, weight: .bold) : .system(size: 15, weight: .regular))
+                            .padding()
+                            .frame(width: UIScreen.main.bounds.width/1.1, height: 50)
+                            .background(.gray.opacity(0.1))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(isPasswordFocused ? Color(red: 0/255, green: 230/255, blue: 255/255) : .clear, lineWidth: 1)
+                            )
+                            .focused($isPasswordFocused)
+                            .onChange(of: viewModel.password) { newValue in
+                                if !newValue.isEmpty {
+                                    isTyping = true
+                                } else {
+                                    isTyping = false
+                                }
+                            }
+                    } else {
+                        TextField(" Enter password", text: $viewModel.password)
+                            .padding()
+                            .keyboardType(.asciiCapable)
+                            .font(isPasswordFocused ? .system(size: 20, weight: .bold) : .system(size: 15, weight: .regular))
+                            .padding()
+                            .frame(width: UIScreen.main.bounds.width/1.1, height: 50)
+                            .background(.gray.opacity(0.1))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(isPasswordFocused ? Color(red: 0/255, green: 230/255, blue: 255/255) : .clear, lineWidth: 1)
+                            )
+                            .focused($isPasswordFocused)
+                            .onChange(of: viewModel.password) { newValue in
+                                if !newValue.isEmpty {
+                                    isTyping = true
+                                } else {
+                                    isTyping = false
+                                }
+                            }
+                    }
+                    Button  {
+                        isSecure.toggle()
+                    } label: {
+                        if isTyping {
+                            Image(systemName: isSecure ? "eyebrow" : "eye")
+                                .foregroundColor(.black)
+                                .padding(.trailing, 10)
+                        }
+                    }
+                }
                 Button {
                     continueButton.toggle()
                 } label: {
@@ -448,7 +567,6 @@ struct ThirdSignUpView_Previews: PreviewProvider {
 }
 
 struct FourthSignUpView: View {
-    //@State var dateOfBirth = ""
     @State var showNewView = false
     @State var continueButton = false
     @State var selectedDate = Date()
@@ -457,7 +575,7 @@ struct FourthSignUpView: View {
     @StateObject var viewModel: UserViewModel
     var body: some View {
         VStack {
-            HStack(alignment: .center) {
+            HStack{
                 Button {
                     presentationMode.wrappedValue.dismiss()
                     showNewView.toggle()
@@ -470,53 +588,55 @@ struct FourthSignUpView: View {
                     SignInView(viewModel: UserViewModel())
                 }
                 Spacer()
-                    .frame(width: 150)
+                    .frame(width: 140)
                 Text("Sign up")
                     .font(.system(size: 20, weight: .black))
                     .foregroundColor(.black)
                     .lineLimit(0)
             }
-            .padding(.trailing,  150)
+            .padding(.trailing,  140)
             Spacer()
                 .frame(height: 100)
-        VStack(alignment: .center, spacing: 30) {
-            Text("When's your date of birth?")
-                .font(.system(size: 25, weight: .black))
-                .foregroundColor(.black)
-            Text("To protect underage users, fill in your\n birthday. Your age information won't be\n shown publicly")
-                .font(.system(size: 18, weight: .bold))
-                .foregroundColor(.black.opacity(0.9))
-            TextField("Birthday", text: $viewModel.dateOfBirth)
-                .keyboardType(.emailAddress)
-                .frame(width: UIScreen.main.bounds.width/1.1, height: 55)
-                .background(.gray.opacity(0.1))
-                .cornerRadius(5)
-                .onTapGesture {
-                    showDatePicker = true
-                }
-                .onAppear() {
-                    let dateformatter = DateFormatter()
-                    dateformatter.dateFormat = "yyyy-MM-dd"
-                    viewModel.dateOfBirth = dateformatter.string(from: selectedDate)
-                }
-                .sheet(isPresented: $showDatePicker) {
-                    Color.red
-                    DatePickerView(selectedDate: $selectedDate, dateString: $viewModel.dateOfBirth, isPresented: $showDatePicker)
-                        .presentationDetents([.height(300)])
-                }
+            VStack(alignment: .center, spacing: 30) {
+                Text("When's your date of birth?")
+                    .font(.system(size: 25, weight: .black))
+                    .foregroundColor(.black)
+                Text("To protect underage users, fill in your\n birthday. Your age information won't be\n shown publicly")
+                    .font(.system(size: 18, weight: .bold))
+                    .foregroundColor(.black.opacity(0.9))
+                TextField(" Birthday", text: $viewModel.dateOfBirth)
+                    .padding()
+                    .keyboardType(.emailAddress)
+                    .frame(width: UIScreen.main.bounds.width/1.1, height: 55)
+                    .background(.gray.opacity(0.1))
+                    .cornerRadius(5)
+                    .onTapGesture {
+                        showDatePicker = true
+                    }
+                    .onAppear() {
+                        let dateformatter = DateFormatter()
+                        dateformatter.dateFormat = "yyyy-MM-dd"
+                        viewModel.dateOfBirth = dateformatter.string(from: selectedDate)
+                    }
+                    .sheet(isPresented: $showDatePicker) {
+                        Color.red
+                        DatePickerView(selectedDate: $selectedDate, dateString: $viewModel.dateOfBirth, isPresented: $showDatePicker)
+                            .presentationDetents([.height(300)])
+                    }
                 
-            Button {
-                continueButton.toggle()
-            } label: {
-                Text("Continue")
-                    .font(.system(size: 18, weight: .black))
-                    .foregroundColor(.gray.opacity(0.5))
-            }
-            .frame(width: UIScreen.main.bounds.width/1.2, height: 50)
-            .background(.gray.opacity(0.2))
-            .cornerRadius(5)
+                Button {
+                    continueButton.toggle()
+                } label: {
+                    Text("Continue")
+                        .font(.system(size: 18, weight: .black))
+                        .foregroundColor(.gray.opacity(0.5))
+                }
+                .frame(width: UIScreen.main.bounds.width/1.2, height: 50)
+                .background(.gray.opacity(0.2))
+                .cornerRadius(5)
             }
             Spacer()
+                .frame(height: 350)
         }
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         .background(.white)
@@ -530,7 +650,6 @@ struct FourthSignUpView_Previews: PreviewProvider {
 }
 
 struct FifthSignUpView: View {
-    //@State var text = ""
     @State var showNewView = false
     @State var continueButton = false
     @FocusState var isNickNameFocused: Bool
@@ -560,33 +679,34 @@ struct FifthSignUpView: View {
             Spacer()
                 .frame(height: 100)
             VStack(spacing: 20) {
-                Text("Create nickname")
+                Text(" Create nickname")
                     .font(.system(size: 30, weight: .black))
                 Text("This can be anything you like and can be \n changed later. If you skip this step, you\n will be automatically assigned a default\n nickname.")
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(.black.opacity(0.9))
                 VStack(spacing: 50) {
                     TextField("Enter a nickname", text: $viewModel.nickname)
-                .font(isNickNameFocused ? .system(size: 20, weight: .bold) : .system(size: 15, weight: .regular))
-                    .keyboardType(.emailAddress)
+                        .padding()
+                        .font(isNickNameFocused ? .system(size: 20, weight: .bold) : .system(size: 15, weight: .regular))
+                        .keyboardType(.emailAddress)
+                        .frame(width: UIScreen.main.bounds.width/1.1, height: 55)
+                        .background(.gray.opacity(0.1))
+                        .cornerRadius(5)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(isNickNameFocused ? Color(red: 0/255, green: 230/255, blue: 255/255) : .clear, lineWidth: 1)
+                        )
+                        .focused($isNickNameFocused)
+                    Button {
+                        continueButton.toggle()
+                    } label: {
+                        Text("Confirm")
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundColor(.gray.opacity(0.4))
+                    }
                     .frame(width: UIScreen.main.bounds.width/1.1, height: 55)
-                    .background(.gray.opacity(0.1))
+                    .background(.gray.opacity(0.2))
                     .cornerRadius(5)
-                    .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                .stroke(isNickNameFocused ? Color(red: 0/255, green: 230/255, blue: 255/255) : .clear, lineWidth: 1)
-                    )
-                    .focused($isNickNameFocused)
-                Button {
-                    continueButton.toggle()
-                } label: {
-                    Text("Confirm")
-                        .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(.gray.opacity(0.4))
-                }
-                .frame(width: UIScreen.main.bounds.width/1.1, height: 55)
-                .background(.gray.opacity(0.2))
-                .cornerRadius(5)
                 }
             }
             Spacer()
@@ -604,65 +724,65 @@ struct TermsOfServiceModalView: View {
     @Binding var agreeAndContinueButton: Bool
     var body: some View {
         //VStack {
-            ZStack {
-Color.black.opacity(0.4)
-                    .edgesIgnoringSafeArea(.vertical)
-                VStack(spacing: 20) {
-        Text("Terms of Service and Privacy \n Policy")
-                        .font(.system(size: 16, weight: .black))
-                        .frame(maxWidth: .infinity)
-                        .foregroundColor(Color.black)
-                    VStack {
-                        Text("By tapping Agree and continue, you\n agree to CHI's")
-                            .foregroundColor(.black.opacity(0.9))
-                        +
-                        Text(" Terms of Service")
-                            .foregroundColor(Color(red: 0/255, green: 230/255, blue: 255/255))
-                        +
-                        Text(" and\n acknowledge that you have read our\n")
-                            .foregroundColor(.black.opacity(0.9))
-                        +
-                        Text("Privacy Policy")
-                            .foregroundColor(Color(red: 0/255, green: 230/255, blue: 255/255))
-                        +
-                        Text(" and")
-                            .foregroundColor(.black.opacity(0.9))
-                        +
-                        Text(" Cookies Policy")
-                            .foregroundColor(Color(red: 0/255, green: 230/255, blue: 255/255))
-                        +
-                        Text(" to\n learn how we collect, use, and share\n your data.")
-                    }
-                    .font(.system(size: 14, weight: .bold))
-                    .lineSpacing(7)
-                    HStack(spacing: 10) {
-                        Image(systemName: "chevron.down.circle.fill")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(Color(red: 0/255, green: 230/255, blue: 255/255))
-                            .padding(.bottom, 30)
-                        Text("You confirmed that you are \n over 13 years old to receive \n advertisements.")
-                            .font(.system(size: 12, weight: .bold))
-                            .foregroundColor(.black.opacity(0.9))
-                            .lineSpacing(10)
-                            .multilineTextAlignment(.center)
-                    }
-                    Button(action: {
-                        agreeAndContinueButton.toggle()
-                    }) {
-                        Text("Agree and continue")
-                            .font(.system(size: 16, weight: .black))
-                            .shadow(color: .white,radius: 0, x: 0.1, y: 0.1)
-                            .foregroundColor(.white)
-                    }
-                    .frame(width: UIScreen.main.bounds.width/1.6, height: 55)
-                    .background(Color(red: 0/255, green: 230/255, blue: 255/255))
-                    .cornerRadius(10)
-                    .shadow(color: .clear,radius: 0, x: 0, y: 0)
+        ZStack {
+            Color.black.opacity(0.4)
+                .edgesIgnoringSafeArea(.vertical)
+            VStack(spacing: 20) {
+                Text("Terms of Service and Privacy \n Policy")
+                    .font(.system(size: 16, weight: .black))
+                    .frame(maxWidth: .infinity)
+                    .foregroundColor(Color.black)
+                VStack {
+                    Text("By tapping Agree and continue, you\n agree to CHI's")
+                        .foregroundColor(.black.opacity(0.9))
+                    +
+                    Text(" Terms of Service")
+                        .foregroundColor(Color(red: 0/255, green: 230/255, blue: 255/255))
+                    +
+                    Text(" and\n acknowledge that you have read our\n")
+                        .foregroundColor(.black.opacity(0.9))
+                    +
+                    Text("Privacy Policy")
+                        .foregroundColor(Color(red: 0/255, green: 230/255, blue: 255/255))
+                    +
+                    Text(" and")
+                        .foregroundColor(.black.opacity(0.9))
+                    +
+                    Text(" Cookies Policy")
+                        .foregroundColor(Color(red: 0/255, green: 230/255, blue: 255/255))
+                    +
+                    Text(" to\n learn how we collect, use, and share\n your data.")
                 }
-                .frame(width: 300, height: 400)
-                .background(Color.white)
-                .cornerRadius(20).shadow(radius: 20)
+                .font(.system(size: 14, weight: .bold))
+                .lineSpacing(7)
+                HStack(spacing: 10) {
+                    Image(systemName: "chevron.down.circle.fill")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundColor(Color(red: 0/255, green: 230/255, blue: 255/255))
+                        .padding(.bottom, 30)
+                    Text("You confirmed that you are \n over 13 years old to receive \n advertisements.")
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundColor(.black.opacity(0.9))
+                        .lineSpacing(10)
+                        .multilineTextAlignment(.center)
+                }
+                Button(action: {
+                    agreeAndContinueButton.toggle()
+                }) {
+                    Text("Agree and continue")
+                        .font(.system(size: 16, weight: .black))
+                        .shadow(color: .white,radius: 0, x: 0.1, y: 0.1)
+                        .foregroundColor(.white)
+                }
+                .frame(width: UIScreen.main.bounds.width/1.6, height: 55)
+                .background(Color(red: 0/255, green: 230/255, blue: 255/255))
+                .cornerRadius(10)
+                .shadow(color: .clear,radius: 0, x: 0, y: 0)
             }
+            .frame(width: 300, height: 400)
+            .background(Color.white)
+            .cornerRadius(20).shadow(radius: 20)
+        }
         //}
     }
 }
