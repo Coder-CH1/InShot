@@ -102,7 +102,7 @@ struct UserRegistration: View {
                     .stroke(Color.gray, lineWidth: 1)
                 )
                 .fullScreenCover(isPresented: $signInView) {
-                    SignInView()
+                    SignInView(viewModel: UserViewModel())
                 }
                 VStack {
                     Text("I have read and acknowledge the CHI\n")
@@ -127,13 +127,12 @@ struct UserRegistration: View {
 
 struct SignInView: View {
     @State var showNewView = false
-    @State var email = ""
-    @State var password = ""
     @State var continueButton = false
     @State var showSignUpView = false
     @Environment(\.presentationMode) var presentationMode
     @FocusState var isEmailFocused: Bool
     @FocusState var isPasswordFocused: Bool
+    @StateObject var viewModel: UserViewModel
     var body: some View {
         VStack {
             HStack(spacing: 100) {
@@ -165,8 +164,10 @@ struct SignInView: View {
                         .foregroundColor(.black)
                 }
                 VStack(spacing: 20) {
-                    TextField("Enter email address", text: $email)
+                    TextField("Enter email address", text: $viewModel.email)
+                        .autocapitalization(.none)
                         .keyboardType(.emailAddress)
+                        .disableAutocorrection(true)
                         .font(isEmailFocused ? .system(size: 20, weight: .bold) : .system(size: 15, weight: .regular))
                         .padding()
                         .frame(width: UIScreen.main.bounds.width/1.1, height: 50)
@@ -176,7 +177,7 @@ struct SignInView: View {
                                 .stroke(isEmailFocused ? Color(red: 0/255, green: 230/255, blue: 255/255) : .clear, lineWidth: 1)
                         )
                         .focused($isEmailFocused)
-                    SecureField("Enter password", text: $password)
+                    SecureField("Enter password", text: $viewModel.password)
                         .keyboardType(.asciiCapable)
                         .font(isPasswordFocused ? .system(size: 20, weight: .bold) : .system(size: 15, weight: .regular))
                         .padding()
@@ -216,7 +217,7 @@ struct SignInView: View {
                                 .foregroundColor(Color(red: 0/255, green: 230/255, blue: 255/255))
                         }
                         .fullScreenCover(isPresented: $showSignUpView) {
-                            FirstSignUpView()
+                            FirstSignUpView(viewModel: UserViewModel())
                     }
                 }
             }
@@ -225,39 +226,20 @@ struct SignInView: View {
 }
 
 struct FirstSignUpView: View {
-    @State var email = ""
-    @State var showNewView = false
+    //@State var email = ""
     @State var continueButton = false
     @FocusState var isEmailFocused: Bool
-    @Environment(\.presentationMode) var presentationMode
+    @StateObject var viewModel = UserViewModel()
     var body: some View {
         VStack {
-            HStack(spacing: 100) {
-                Button {
-                    presentationMode.wrappedValue.dismiss()
-                    showNewView.toggle()
-                } label: {
-                    Image(systemName: "chevron.backward")
-                        .font(.system(size: 20))
-                        .foregroundColor(.black)
-                }
-                .fullScreenCover(isPresented: $showNewView) {
-                    SignInView()
-                }
-                Text("Sign up")
-                    .font(.system(size: 20, weight: .black))
-                    .foregroundColor(.black)
-                Text("Help")
-                    .font(.system(size: 20, weight: .black))
-                    .foregroundColor(.gray)
-            }
+            TopView()
             Spacer()
                 .frame(height: 120)
             VStack(spacing: 20) {
                 Text("What's your email address?")
                     .font(.system(size: 25, weight: .black))
                     .foregroundColor(.black)
-                TextField("Enter email address", text: $email)
+                TextField("Enter email address", text: $viewModel.email)
                     .keyboardType(.emailAddress)
                     .font(isEmailFocused ? .system(size: 20, weight: .bold) : .system(size: 15, weight: .regular))
                     .padding()
@@ -303,6 +285,38 @@ struct FirstSignUpView: View {
     }
 }
 
+struct TopView: View {
+    @State var showNewView = false
+    @Environment(\.presentationMode) var presentationMode
+    var body: some View {
+        HStack(spacing: 100) {
+            Button {
+                presentationMode.wrappedValue.dismiss()
+                showNewView.toggle()
+            } label: {
+                Image(systemName: "chevron.backward")
+                    .font(.system(size: 20))
+                    .foregroundColor(.black)
+            }
+            .fullScreenCover(isPresented: $showNewView) {
+                SignInView(viewModel: UserViewModel())
+            }
+            Text("Sign up")
+                .font(.system(size: 20, weight: .black))
+                .foregroundColor(.black)
+            Text("Help")
+                .font(.system(size: 20, weight: .black))
+                .foregroundColor(.gray)
+        }
+    }
+}
+
+//struct MiddleView: View {
+//    var body: some View {
+//
+//    }
+//}
+
 struct SecondSignUpView: View {
     @State var continueButton = false
     @State var showNewView = false
@@ -320,7 +334,7 @@ struct SecondSignUpView: View {
                         .foregroundColor(.black)
                 }
                 .fullScreenCover(isPresented: $showNewView) {
-                    SignInView()
+                    SignInView(viewModel: UserViewModel())
                 }
                 Text("Sign up")
                     .font(.system(size: 20, weight: .black))
@@ -369,12 +383,13 @@ struct SecondSignUpView_Previews: PreviewProvider {
 }
 
 struct ThirdSignUpView: View {
-    @State var password = ""
+    //@State var password = ""
     @State var continueButton = false
     @State var showNewView = false
     @State var code = Array(repeating: "", count: 6)
     @FocusState var isPasswordFocused: Bool
     @Environment(\.presentationMode) var presentationMode
+    @StateObject var viewModel: UserViewModel
     var body: some View {
         VStack {
             HStack {
@@ -387,7 +402,7 @@ struct ThirdSignUpView: View {
                         .foregroundColor(.black)
                 }
                 .fullScreenCover(isPresented: $showNewView) {
-                    SignInView()
+                    SignInView(viewModel: UserViewModel())
                 }
                     .frame(width: 50)
                 Text("Sign up")
@@ -400,7 +415,7 @@ struct ThirdSignUpView: View {
                 Text("Create password")
                     .font(.system(size: 25, weight: .black))
                     .foregroundColor(.black)
-                SecureField("Enter password", text: $password)
+                SecureField("Enter password", text: $viewModel.password)
                     .font(isPasswordFocused ? .system(size: 20, weight: .bold) : .system(size: 15, weight: .regular))
                     .padding()
                     .frame(width: UIScreen.main.bounds.width/1.1, height: 50)
@@ -428,17 +443,18 @@ struct ThirdSignUpView: View {
 
 struct ThirdSignUpView_Previews: PreviewProvider {
     static var previews: some View {
-        ThirdSignUpView()
+        ThirdSignUpView(viewModel: UserViewModel())
     }
 }
 
 struct FourthSignUpView: View {
-    @State var dateOfBirth = ""
+    //@State var dateOfBirth = ""
     @State var showNewView = false
     @State var continueButton = false
     @State var selectedDate = Date()
     @State var showDatePicker = false
     @Environment(\.presentationMode) var presentationMode
+    @StateObject var viewModel: UserViewModel
     var body: some View {
         VStack {
             HStack(alignment: .center) {
@@ -451,7 +467,7 @@ struct FourthSignUpView: View {
                         .foregroundColor(.black)
                 }
                 .fullScreenCover(isPresented: $showNewView) {
-                    SignInView()
+                    SignInView(viewModel: UserViewModel())
                 }
                 Spacer()
                     .frame(width: 150)
@@ -470,7 +486,7 @@ struct FourthSignUpView: View {
             Text("To protect underage users, fill in your\n birthday. Your age information won't be\n shown publicly")
                 .font(.system(size: 18, weight: .bold))
                 .foregroundColor(.black.opacity(0.9))
-            TextField("Birthday", text: $dateOfBirth)
+            TextField("Birthday", text: $viewModel.dateOfBirth)
                 .keyboardType(.emailAddress)
                 .frame(width: UIScreen.main.bounds.width/1.1, height: 55)
                 .background(.gray.opacity(0.1))
@@ -481,11 +497,11 @@ struct FourthSignUpView: View {
                 .onAppear() {
                     let dateformatter = DateFormatter()
                     dateformatter.dateFormat = "yyyy-MM-dd"
-                    dateOfBirth = dateformatter.string(from: selectedDate)
+                    viewModel.dateOfBirth = dateformatter.string(from: selectedDate)
                 }
                 .sheet(isPresented: $showDatePicker) {
                     Color.red
-        DatePickerView(selectedDate: $selectedDate, dateString: $dateOfBirth, isPresented: $showDatePicker)
+                    DatePickerView(selectedDate: $selectedDate, dateString: $viewModel.dateOfBirth, isPresented: $showDatePicker)
                         .presentationDetents([.height(300)])
                 }
                 
@@ -509,16 +525,17 @@ struct FourthSignUpView: View {
 
 struct FourthSignUpView_Previews: PreviewProvider {
     static var previews: some View {
-        FourthSignUpView()
+        FourthSignUpView(viewModel: UserViewModel())
     }
 }
 
 struct FifthSignUpView: View {
-    @State var text = ""
+    //@State var text = ""
     @State var showNewView = false
     @State var continueButton = false
     @FocusState var isNickNameFocused: Bool
     @Environment(\.presentationMode) var presentationMode
+    @StateObject var viewModel: UserViewModel
     var body: some View {
         VStack {
             HStack(spacing: 100) {
@@ -531,7 +548,7 @@ struct FifthSignUpView: View {
                         .foregroundColor(.black)
                 }
                 .fullScreenCover(isPresented: $showNewView) {
-                    SignInView()
+                    SignInView(viewModel: UserViewModel())
                 }
                 Text("Sign up")
                     .font(.system(size: 20, weight: .black))
@@ -549,7 +566,7 @@ struct FifthSignUpView: View {
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(.black.opacity(0.9))
                 VStack(spacing: 50) {
-                TextField("Enter a nickname", text: $text)
+                    TextField("Enter a nickname", text: $viewModel.nickname)
                 .font(isNickNameFocused ? .system(size: 20, weight: .bold) : .system(size: 15, weight: .regular))
                     .keyboardType(.emailAddress)
                     .frame(width: UIScreen.main.bounds.width/1.1, height: 55)
@@ -579,7 +596,7 @@ struct FifthSignUpView: View {
 
 struct FifthSignUpView_Previews: PreviewProvider {
     static var previews: some View {
-        FifthSignUpView()
+        FifthSignUpView(viewModel: UserViewModel())
     }
 }
 

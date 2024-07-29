@@ -7,21 +7,21 @@
 
 import Foundation
 
-struct RegistrationRequest: Codable {
-    let email: String
-    let password: String
-    let dateOfBirth: String
-    let nickName: String
-}
-
-struct RegistrationResponse: Codable {
-    let message: String
-}
-
-enum NetworkError: Error {
-    case invalidUrl
-    case noData
-}
+//struct RegistrationRequest: Codable {
+//    let email: String
+//    let password: String
+//    let dateOfBirth: String
+//    let nickName: String
+//}
+//
+//struct RegistrationResponse: Codable {
+//    let message: String
+//}
+//
+//enum NetworkError: Error {
+//    case invalidUrl
+//    case noData
+//}
 
 class NetworkManager {
     static let shared = NetworkManager()
