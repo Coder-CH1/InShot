@@ -794,34 +794,16 @@ struct TermsOfServiceModalView: View {
 }
 
 struct ResetPasswordView: View {
-    @State var showNewView = false
+    @State var isSecure = true
+    @State var isTyping = false
     @State var continueButton = false
     @State var fontButtonColor = Color.gray
     @State var continueButtonColor = Color.gray.opacity(0.2)
     @FocusState var isEmailFocused: Bool
     @StateObject var viewModel: UserViewModel
-    @Environment(\.presentationMode) var presentationMode
     var body: some View {
         VStack {
-            HStack(spacing: 100) {
-                Button {
-                    presentationMode.wrappedValue.dismiss()
-                    showNewView.toggle()
-                } label: {
-                    Image(systemName: "chevron.backward")
-                        .font(.system(size: 20))
-                        .foregroundColor(.black)
-                        .fullScreenCover(isPresented: $showNewView) {
-                            UserRegistration()
-                        }
-                }
-                Text("Reset")
-                    .font(.system(size: 20, weight: .black))
-                    .foregroundColor(.black)
-                Text("Help")
-                    .font(.system(size: 20, weight: .black))
-                    .foregroundColor(.gray)
-            }
+            ResetPasswordTopView()
             Spacer()
                 .frame(height: 100)
             VStack(alignment: .leading, spacing: 10) {
@@ -849,6 +831,17 @@ struct ResetPasswordView: View {
                             .stroke(isEmailFocused ? Color(red: 0/255, green: 230/255, blue: 255/255) : .clear, lineWidth: 1)
                     )
                     .focused($isEmailFocused)
+                    .onChange(of: viewModel.email) { newValue in
+                if !newValue.isEmpty {
+                    isTyping = true
+                    continueButtonColor = Color(red: 0/255, green: 230/255, blue: 255/255)
+                            fontButtonColor = .white
+                    } else {
+                    isTyping = false
+                    continueButtonColor = Color.gray.opacity(0.2)
+                            fontButtonColor = .gray
+                        }
+                    }
                 Button {
                     continueButton.toggle()
                 } label: {
@@ -868,5 +861,31 @@ struct ResetPasswordView: View {
 struct ResetPasswordView_Previews: PreviewProvider {
     static var previews: some View {
         ResetPasswordView(viewModel: UserViewModel())
+    }
+}
+
+struct ResetPasswordTopView: View {
+    @State var showNewView = false
+    @Environment(\.presentationMode) var presentationMode
+    var body: some View {
+        HStack(spacing: 100) {
+            Button {
+                presentationMode.wrappedValue.dismiss()
+                showNewView.toggle()
+            } label: {
+                Image(systemName: "chevron.backward")
+                    .font(.system(size: 20))
+                    .foregroundColor(.black)
+                    .fullScreenCover(isPresented: $showNewView) {
+                        UserRegistration()
+                    }
+            }
+            Text("Reset")
+                .font(.system(size: 20, weight: .black))
+                .foregroundColor(.black)
+            Text("Help")
+                .font(.system(size: 20, weight: .black))
+                .foregroundColor(.gray)
+        }
     }
 }

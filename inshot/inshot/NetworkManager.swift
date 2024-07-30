@@ -29,5 +29,21 @@ class NetworkManager {
     func registerUser(email: String, password: String, dateOfBirth: Date, nickName: String, completion: @escaping (Result<String,Error>)  -> Void) {
         
     }
+    
+    func loginUser(email: String, password: String, completion: @escaping (Result<String,Error>)  -> Void) {
+        
+    }
+    
+    func logoutUser(completion: @escaping (Result<String,Error>)  -> Void) {
+        
+    }
+    
+    func sendCode(email: String, completion: @escaping (Result<String,Error>)  -> Void) {
+        
+    }
+    
+    func verifyCode(email: String, code: String, completion: @escaping (Result<String,Error>)  -> Void) {
+        
+    }
 }
 
