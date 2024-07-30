@@ -131,12 +131,12 @@ struct SignInView: View {
     @State var showNewView = false
     @State var continueButton = false
     @State var showSignUpView = false
-    @State var continueButtonColor = Color.gray.opacity(0.2)
     @State var fontButtonColor = Color.gray
-    @Environment(\.presentationMode) var presentationMode
+    @State var continueButtonColor = Color.gray.opacity(0.2)
     @FocusState var isEmailFocused: Bool
     @FocusState var isPasswordFocused: Bool
     @StateObject var viewModel: UserViewModel
+    @Environment(\.presentationMode) var presentationMode
     var body: some View {
         VStack {
             HStack(spacing: 100) {
@@ -431,8 +431,8 @@ struct SecondSignUpView: View {
                                     } else {
                                         continueButtonColor = Color.gray.opacity(0.2)
                                         fontButtonColor = .gray
-                                    }
-                                }
+                            }
+                        }
                     }
                 }
                 Button {
@@ -462,6 +462,8 @@ struct ThirdSignUpView: View {
     @State var isTyping = false
     @State var continueButton = false
     @State var showNewView = false
+    @State var fontButtonColor = Color.gray
+    @State var continueButtonColor = Color.gray.opacity(0.2)
     @State var code = Array(repeating: "", count: 6)
     @FocusState var isPasswordFocused: Bool
     @Environment(\.presentationMode) var presentationMode
@@ -529,8 +531,12 @@ struct ThirdSignUpView: View {
                             .onChange(of: viewModel.password) { newValue in
                                 if !newValue.isEmpty {
                                     isTyping = true
+                                    continueButtonColor = Color(red: 0/255, green: 230/255, blue: 255/255)
+                                    fontButtonColor = .white
                                 } else {
                                     isTyping = false
+                                    continueButtonColor = Color.gray.opacity(0.2)
+                                    fontButtonColor = .gray
                                 }
                             }
                     }
@@ -549,10 +555,10 @@ struct ThirdSignUpView: View {
                 } label: {
                     Text("Continue")
                         .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(.gray)
+                        .foregroundColor(fontButtonColor)
                 }
                 .frame(width: UIScreen.main.bounds.width/1.1, height: 50)
-                .background(.gray.opacity(0.2))
+                .background(continueButtonColor)
                 .cornerRadius(10)
             }
             Spacer()
