@@ -13,6 +13,7 @@ class UserViewModel: ObservableObject {
     @Published var dateOfBirth = ""
     @Published var nickname = ""
     @Published var digitNumber = ""
+    @Published var resMessage = ""
     func signIn() {
         guard !email.isEmpty && !password.isEmpty else {
             return
