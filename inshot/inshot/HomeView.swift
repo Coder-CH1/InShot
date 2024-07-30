@@ -509,10 +509,14 @@ struct ThirdSignUpView: View {
                             )
                             .focused($isPasswordFocused)
                             .onChange(of: viewModel.password) { newValue in
-                                if !newValue.isEmpty {
-                                    isTyping = true
-                                } else {
-                                    isTyping = false
+                        if !newValue.isEmpty {
+                            isTyping = true
+                            continueButtonColor = Color(red: 0/255, green: 230/255, blue: 255/255)
+                                    fontButtonColor = .white
+                            } else {
+                            isTyping = false
+                            continueButtonColor = Color.gray.opacity(0.2)
+                                    fontButtonColor = .gray
                                 }
                             }
                     } else {
@@ -531,14 +535,10 @@ struct ThirdSignUpView: View {
                             .onChange(of: viewModel.password) { newValue in
                                 if !newValue.isEmpty {
                                     isTyping = true
-                                    continueButtonColor = Color(red: 0/255, green: 230/255, blue: 255/255)
-                                    fontButtonColor = .white
                                 } else {
-                                    isTyping = false
-                                    continueButtonColor = Color.gray.opacity(0.2)
-                                    fontButtonColor = .gray
-                                }
+                        isTyping = false
                             }
+                        }
                     }
                     Button  {
                         isSecure.toggle()
@@ -793,3 +793,80 @@ struct TermsOfServiceModalView: View {
     }
 }
 
+struct ResetPasswordView: View {
+    @State var showNewView = false
+    @State var continueButton = false
+    @State var fontButtonColor = Color.gray
+    @State var continueButtonColor = Color.gray.opacity(0.2)
+    @FocusState var isEmailFocused: Bool
+    @StateObject var viewModel: UserViewModel
+    @Environment(\.presentationMode) var presentationMode
+    var body: some View {
+        VStack {
+            HStack(spacing: 100) {
+                Button {
+                    presentationMode.wrappedValue.dismiss()
+                    showNewView.toggle()
+                } label: {
+                    Image(systemName: "chevron.backward")
+                        .font(.system(size: 20))
+                        .foregroundColor(.black)
+                        .fullScreenCover(isPresented: $showNewView) {
+                            UserRegistration()
+                        }
+                }
+                Text("Reset")
+                    .font(.system(size: 20, weight: .black))
+                    .foregroundColor(.black)
+                Text("Help")
+                    .font(.system(size: 20, weight: .black))
+                    .foregroundColor(.gray)
+            }
+            Spacer()
+                .frame(height: 100)
+            VStack(alignment: .leading, spacing: 10) {
+                Text("Forgot password")
+                    .font(.system(size: 20, weight: .black))
+                    .foregroundColor(.black)
+                Text("We'll email you a code to reset your password")
+                    .font(.system(size: 15, weight: .black))
+                    .foregroundColor(.gray)
+                Spacer()
+                    .frame(height: 20)
+            }
+            VStack(spacing: 20) {
+                TextField("Enter email address", text: $viewModel.email)
+                    .padding()
+                    .autocapitalization(.none)
+                    .keyboardType(.emailAddress)
+                    .disableAutocorrection(true)
+                    .font(isEmailFocused ? .system(size: 20, weight: .bold) : .system(size: 15, weight: .regular))
+                    .padding()
+                    .frame(width: UIScreen.main.bounds.width/1.1, height: 50)
+                    .background(.gray.opacity(0.1))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(isEmailFocused ? Color(red: 0/255, green: 230/255, blue: 255/255) : .clear, lineWidth: 1)
+                    )
+                    .focused($isEmailFocused)
+                Button {
+                    continueButton.toggle()
+                } label: {
+                    Text("Continue")
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundColor(fontButtonColor)
+                }
+                .frame(width: UIScreen.main.bounds.width/1.1, height: 50)
+                .background(continueButtonColor)
+                .cornerRadius(10)
+            }
+            Spacer()
+        }
+    }
+}
+
+struct ResetPasswordView_Previews: PreviewProvider {
+    static var previews: some View {
+        ResetPasswordView(viewModel: UserViewModel())
+    }
+}
