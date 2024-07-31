@@ -312,7 +312,7 @@ struct FirstSignUpView: View {
                         }
                     }
                 Button {
-                    
+                   //sendVerificationCode()
                 } label: {
                     Text("Continue")
                         .font(.system(size: 18, weight: .bold))
