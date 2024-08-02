@@ -7,10 +7,6 @@
 
 import Foundation
 
-struct ErrorResponse: Codable {
-    let error: String
-}
-
 class NetworkManager {
     static let shared = NetworkManager()
     private init() {}
