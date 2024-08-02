@@ -281,6 +281,7 @@ struct FirstSignUpView: View {
     @State var fontButtonColor = Color.gray
     @FocusState var isEmailFocused: Bool
     @StateObject var viewModel = UserViewModel()
+           
     var body: some View {
         VStack {
             TopView()

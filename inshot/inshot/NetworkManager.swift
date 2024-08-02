@@ -7,10 +7,14 @@
 
 import Foundation
 
+struct ErrorResponse: Codable {
+    let error: String
+}
+
 class NetworkManager {
     static let shared = NetworkManager()
     private init() {}
-    let endpoint = ""
+    let endpoint = "http://localhost:3004/send-code"
     
     func sendCode(email: String, completion: @escaping (Result<String,Error>)  -> Void) {
         let url = URL(string: endpoint)!
@@ -26,7 +30,11 @@ class NetworkManager {
                 print("Error: \(error.localizedDescription)")
                 completion(.failure(error))
             }
-            
+
+            if let jsonString = String(data: data ?? Data(), encoding: .utf8) {
+                    print("Received data: \(jsonString)")
+                }
+
             guard let data = data else {
                 print("no data received")
                 return
@@ -34,6 +42,7 @@ class NetworkManager {
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: [])
                 print("\(json)")
+
             } catch {
                 print("\(error.localizedDescription)")
             }
