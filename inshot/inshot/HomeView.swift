@@ -146,19 +146,17 @@ struct HomeViewContents: View {
                     }
                 }
             }
-            HStack {
-                ZStack {
-//                    Image(systemName: "plus")
-//                    font(.system(size: 25))
-//                        .foregroundColor(.white)
-                    
+            ZStack {
+                    Rectangle()
+                        .fill(.black.opacity(0.7))
+                        .frame(width: UIScreen.main.bounds.width/1.1, height: 100)
+                        .cornerRadius(5)
+                HStack {
                     Text("New project")
                         .font(.system(size: 24, weight: .black))
                         .foregroundColor(.black)
                 }
             }
-            .frame(width: UIScreen.main.bounds.width/1.1, height: 100)
-            .background(.black.opacity(0.7))
         }
     }
 }
