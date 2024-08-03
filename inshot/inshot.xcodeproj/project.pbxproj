@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04B7469D2C5E65AB009F6868 /* SideMenuHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B7469C2C5E65AB009F6868 /* SideMenuHome.swift */; };
 		04D4FCC92C53E91F00AE91C5 /* inshotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D4FCC82C53E91F00AE91C5 /* inshotApp.swift */; };
 		04D4FCCB2C53E91F00AE91C5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D4FCCA2C53E91F00AE91C5 /* ContentView.swift */; };
 		04D4FCCD2C53E92100AE91C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04D4FCCC2C53E92100AE91C5 /* Assets.xcassets */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04B7469C2C5E65AB009F6868 /* SideMenuHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuHome.swift; sourceTree = "<group>"; };
 		04D4FCC52C53E91F00AE91C5 /* inshot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = inshot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04D4FCC82C53E91F00AE91C5 /* inshotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inshotApp.swift; sourceTree = "<group>"; };
 		04D4FCCA2C53E91F00AE91C5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				04D4FCC82C53E91F00AE91C5 /* inshotApp.swift */,
 				04D4FCCA2C53E91F00AE91C5 /* ContentView.swift */,
 				04D4FCF22C53E94500AE91C5 /* HomeView.swift */,
+				04B7469C2C5E65AB009F6868 /* SideMenuHome.swift */,
 				04D4FCF42C53E96500AE91C5 /* Extension.swift */,
 				04D4FCF62C55168900AE91C5 /* NetworkManager.swift */,
 				04D4FCF82C57951A00AE91C5 /* UserViewModel.swift */,
@@ -270,6 +273,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04D4FCF32C53E94500AE91C5 /* HomeView.swift in Sources */,
+				04B7469D2C5E65AB009F6868 /* SideMenuHome.swift in Sources */,
 				04D4FCCB2C53E91F00AE91C5 /* ContentView.swift in Sources */,
 				04D4FCC92C53E91F00AE91C5 /* inshotApp.swift in Sources */,
 				04D4FCF72C55168900AE91C5 /* NetworkManager.swift in Sources */,
