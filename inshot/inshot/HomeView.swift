@@ -65,6 +65,100 @@ struct HomeViewContents: View {
                 .padding(.all)
             }
             .padding(.horizontal)
+            VStack {
+                HStack(spacing: 8) {
+                    VStack {
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "square.slash")
+                                .font(.system(size: 25))
+                                .foregroundColor(.black)
+                            
+                        }
+                        .frame(width: 65, height: 65)
+                        .background(.gray.opacity(0.1))
+                        .cornerRadius(10)
+                        Text("Remove background")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundColor(.black)
+                            .lineLimit(2)
+                    }
+                    VStack {
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "photo.artframe")
+                                .font(.system(size: 25))
+                                .foregroundColor(.black)
+                        }
+                        .frame(width: 65, height: 65)
+                        .background(.gray.opacity(0.1))
+                        .cornerRadius(10)
+                        Text("Text to image")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundColor(.black)
+                    }
+                    VStack {
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "square.text.square")
+                                .font(.system(size: 25))
+                                .foregroundColor(.black)
+                        }
+                        .frame(width: 65, height: 65)
+                        .background(.gray.opacity(0.1))
+                        .cornerRadius(10)
+                        Text("Photo editor")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundColor(.black)
+                    }
+                    VStack {
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "mail")
+                                .font(.system(size: 25))
+                                .foregroundColor(.black)
+                        }
+                        .frame(width: 65, height: 65)
+                        .background(.gray.opacity(0.1))
+                        .cornerRadius(10)
+                        Text("Image enhancer")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundColor(.black)
+                    }
+                    VStack {
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "square.split.diagonal")
+                                .font(.system(size: 25))
+                                .foregroundColor(.black)
+                        }
+                        .frame(width: 65, height: 65)
+                        .background(.gray.opacity(0.1))
+                        .cornerRadius(10)
+                        Text("Product photos")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundColor(.black)
+                    }
+                }
+            }
+            HStack {
+                ZStack {
+//                    Image(systemName: "plus")
+//                    font(.system(size: 25))
+//                        .foregroundColor(.white)
+                    
+                    Text("New project")
+                        .font(.system(size: 24, weight: .black))
+                        .foregroundColor(.black)
+                }
+            }
+            .frame(width: UIScreen.main.bounds.width/1.1, height: 100)
+            .background(.black.opacity(0.7))
         }
     }
 }
@@ -281,7 +375,7 @@ struct FirstSignUpView: View {
     @State var fontButtonColor = Color.gray
     @FocusState var isEmailFocused: Bool
     @StateObject var viewModel = UserViewModel()
-           
+    
     var body: some View {
         VStack {
             TopView()
@@ -313,7 +407,7 @@ struct FirstSignUpView: View {
                         }
                     }
                 Button {
-                   //sendVerificationCode()
+                    //sendVerificationCode()
                 } label: {
                     Text("Continue")
                         .font(.system(size: 18, weight: .bold))
@@ -421,19 +515,19 @@ struct SecondSignUpView: View {
                             .cornerRadius(5)
                             .multilineTextAlignment(.center)
                             .focused($isDigitNumFocused)
-                                .overlay (
+                            .overlay (
                                 RoundedRectangle(cornerRadius: 5)
                                     .stroke(code[index].isEmpty ? Color.clear : Color(red: 0/255, green: 230/255, blue: 255/255), lineWidth: 1)
-                        )
-                                .onChange(of: code[index]) { newValue in
-                                    if !newValue.isEmpty {
-                                        continueButtonColor = Color(red: 0/255, green: 230/255, blue: 255/255)
-                                        fontButtonColor = .white
-                                    } else {
-                                        continueButtonColor = Color.gray.opacity(0.2)
-                                        fontButtonColor = .gray
+                            )
+                            .onChange(of: code[index]) { newValue in
+                                if !newValue.isEmpty {
+                                    continueButtonColor = Color(red: 0/255, green: 230/255, blue: 255/255)
+                                    fontButtonColor = .white
+                                } else {
+                                    continueButtonColor = Color.gray.opacity(0.2)
+                                    fontButtonColor = .gray
+                                }
                             }
-                        }
                     }
                 }
                 Button {
@@ -510,13 +604,13 @@ struct ThirdSignUpView: View {
                             )
                             .focused($isPasswordFocused)
                             .onChange(of: viewModel.password) { newValue in
-                        if !newValue.isEmpty {
-                            isTyping = true
-                            continueButtonColor = Color(red: 0/255, green: 230/255, blue: 255/255)
+                                if !newValue.isEmpty {
+                                    isTyping = true
+                                    continueButtonColor = Color(red: 0/255, green: 230/255, blue: 255/255)
                                     fontButtonColor = .white
-                            } else {
-                            isTyping = false
-                            continueButtonColor = Color.gray.opacity(0.2)
+                                } else {
+                                    isTyping = false
+                                    continueButtonColor = Color.gray.opacity(0.2)
                                     fontButtonColor = .gray
                                 }
                             }
@@ -537,9 +631,9 @@ struct ThirdSignUpView: View {
                                 if !newValue.isEmpty {
                                     isTyping = true
                                 } else {
-                        isTyping = false
+                                    isTyping = false
+                                }
                             }
-                        }
                     }
                     Button  {
                         isSecure.toggle()
@@ -833,13 +927,13 @@ struct ResetPasswordView: View {
                     )
                     .focused($isEmailFocused)
                     .onChange(of: viewModel.email) { newValue in
-                if !newValue.isEmpty {
-                    isTyping = true
-                    continueButtonColor = Color(red: 0/255, green: 230/255, blue: 255/255)
+                        if !newValue.isEmpty {
+                            isTyping = true
+                            continueButtonColor = Color(red: 0/255, green: 230/255, blue: 255/255)
                             fontButtonColor = .white
-                    } else {
-                    isTyping = false
-                    continueButtonColor = Color.gray.opacity(0.2)
+                        } else {
+                            isTyping = false
+                            continueButtonColor = Color.gray.opacity(0.2)
                             fontButtonColor = .gray
                         }
                     }
