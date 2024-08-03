@@ -29,9 +29,10 @@ struct HomeView_Previews: PreviewProvider {
 }
 
 struct HomeViewContents: View {
+    @State var showMessage = true
     @State var userRegistration = false
     var body: some View {
-        VStack {
+        VStack(spacing: 20) {
             HStack {
                 Button {
                     userRegistration.toggle()
@@ -147,15 +148,47 @@ struct HomeViewContents: View {
                 }
             }
             ZStack {
-                    Rectangle()
-                        .fill(.black.opacity(0.7))
-                        .frame(width: UIScreen.main.bounds.width/1.1, height: 100)
-                        .cornerRadius(5)
-                HStack {
+                Color.black.opacity(0.7)
+                    .frame(width: UIScreen.main.bounds.width/1.1, height: 100)
+                    .cornerRadius(5)
+                HStack(spacing: 20) {
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "plus")
+                            .font(.system(size: 20))
+                            .foregroundColor(.white)
+                    }
+                    .frame(width: 30, height: 30)
+                    .background(.black)
+                    .cornerRadius(5)
                     Text("New project")
                         .font(.system(size: 24, weight: .black))
                         .foregroundColor(.black)
                 }
+            }
+            HStack(spacing: 220) {
+                Text("Projects")
+                    .font(.system(size: 24, weight: .black))
+                    .foregroundColor(.black)
+                
+                Button {
+                    
+                } label: {
+                    Image(systemName: "list.bullet")
+                        .font(.system(size: 25))
+                        .foregroundColor(.black)
+                }
+            }
+            Spacer()
+                .frame(height: 20)
+            VStack(alignment: .center, spacing: 30) {
+                Image(systemName: "film")
+                    .font(.system(size: 40))
+                    .foregroundColor(.black.opacity(0.7))
+                Text("Your projects will appear\n here.\nStart creating now.")
+                    .font(.system(size: 20, weight: .black))
+                    .foregroundColor(Color.black.opacity(0.7))
             }
         }
     }
