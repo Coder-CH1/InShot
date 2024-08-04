@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		042692372C5FD8DA00EC4A4B /* SwiftUISideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = 042692362C5FD8DA00EC4A4B /* SwiftUISideMenu */; };
 		04B7469D2C5E65AB009F6868 /* SideMenuHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B7469C2C5E65AB009F6868 /* SideMenuHome.swift */; };
-		04B746A12C5FB01F009F6868 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04B746A02C5FAEFF009F6868 /* Info.plist */; };
 		04D4FCC92C53E91F00AE91C5 /* inshotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D4FCC82C53E91F00AE91C5 /* inshotApp.swift */; };
 		04D4FCCB2C53E91F00AE91C5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D4FCCA2C53E91F00AE91C5 /* ContentView.swift */; };
 		04D4FCCD2C53E92100AE91C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04D4FCCC2C53E92100AE91C5 /* Assets.xcassets */; };
@@ -41,7 +41,6 @@
 
 /* Begin PBXFileReference section */
 		04B7469C2C5E65AB009F6868 /* SideMenuHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuHome.swift; sourceTree = "<group>"; };
-		04B746A02C5FAEFF009F6868 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		04D4FCC52C53E91F00AE91C5 /* inshot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = inshot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04D4FCC82C53E91F00AE91C5 /* inshotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inshotApp.swift; sourceTree = "<group>"; };
 		04D4FCCA2C53E91F00AE91C5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -63,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				042692372C5FD8DA00EC4A4B /* SwiftUISideMenu in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,7 +106,6 @@
 		04D4FCC72C53E91F00AE91C5 /* inshot */ = {
 			isa = PBXGroup;
 			children = (
-				04B746A02C5FAEFF009F6868 /* Info.plist */,
 				04D4FCC82C53E91F00AE91C5 /* inshotApp.swift */,
 				04D4FCCA2C53E91F00AE91C5 /* ContentView.swift */,
 				04D4FCF22C53E94500AE91C5 /* HomeView.swift */,
@@ -161,6 +160,9 @@
 			dependencies = (
 			);
 			name = inshot;
+			packageProductDependencies = (
+				042692362C5FD8DA00EC4A4B /* SwiftUISideMenu */,
+			);
 			productName = inshot;
 			productReference = 04D4FCC52C53E91F00AE91C5 /* inshot.app */;
 			productType = "com.apple.product-type.application";
@@ -233,6 +235,9 @@
 				Base,
 			);
 			mainGroup = 04D4FCBC2C53E91F00AE91C5;
+			packageReferences = (
+				042692352C5FD8DA00EC4A4B /* XCRemoteSwiftPackageReference "swiftui-side-menu" */,
+			);
 			productRefGroup = 04D4FCC62C53E91F00AE91C5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -251,7 +256,6 @@
 			files = (
 				04D4FCD02C53E92100AE91C5 /* Preview Assets.xcassets in Resources */,
 				04D4FCCD2C53E92100AE91C5 /* Assets.xcassets in Resources */,
-				04B746A12C5FB01F009F6868 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,7 +448,7 @@
 				DEVELOPMENT_TEAM = SFJ8H3MDYC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = inshot/Info.plist;
+				INFOPLIST_FILE = "";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Allow Inshot to access videos and media on your device?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -475,7 +479,7 @@
 				DEVELOPMENT_TEAM = SFJ8H3MDYC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = inshot/Info.plist;
+				INFOPLIST_FILE = "";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Allow Inshot to access videos and media on your device?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -611,6 +615,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		042692352C5FD8DA00EC4A4B /* XCRemoteSwiftPackageReference "swiftui-side-menu" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/globulus/swiftui-side-menu.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		042692362C5FD8DA00EC4A4B /* SwiftUISideMenu */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 042692352C5FD8DA00EC4A4B /* XCRemoteSwiftPackageReference "swiftui-side-menu" */;
+			productName = SwiftUISideMenu;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 04D4FCBD2C53E91F00AE91C5 /* Project object */;
 }

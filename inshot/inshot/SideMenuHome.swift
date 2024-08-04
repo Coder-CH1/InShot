@@ -6,37 +6,69 @@
 //
 
 import SwiftUI
+import SwiftUISideMenu
 
-struct SideMenuHome: View {
+struct SideMenuTest: View {
     @State var showSideMenu = false
+    
     var body: some View {
-            VStack {
-                Button {
-                    showSideMenu.toggle()
-                } label: {
-                    Image(systemName: "person")
-                        .font(.system(size: 30))
-                        .foregroundColor(.black)
-                }
-                Spacer()
+        NavigationView {
+            List(1..<6) { index in
+                Text("Item \(index)")
             }
-            .padding(.trailing, 320)
+            .navigationBarTitle("Dashboard", displayMode: .inline)
+            .navigationBarItems(leading: (
+                Button(action: {
+                    withAnimation {
+                        self.showSideMenu.toggle()
+                    }
+                }) {
+                    Image(systemName: "line.horizontal.3")
+                        .imageScale(.large)
+                }
+            ))
+        }.sideMenu(isShowing: $showSideMenu) {
+            SideMenu(showSideMenu: $showSideMenu)
+        }
     }
 }
 
-struct SideMenuHome_Previews: PreviewProvider {
+
+struct SideMenuTest_Previews: PreviewProvider {
     static var previews: some View {
-        SideMenuHome()
+        SideMenuTest()
     }
 }
+
 
 struct SideMenu: View {
-    @Binding var isShowing: Bool
+    @Binding var showSideMenu: Bool
     var body: some View {
-        VStack {
-          Text("Menu items")
-        }
-        .frame(width: 250, height: UIScreen.main.bounds.height)
-        .background(.gray.opacity(0.6))
+        VStack(alignment: .leading) {
+          Button(action: {
+            withAnimation {
+              self.showSideMenu = false
+            }
+          }) {
+            HStack {
+              Image(systemName: "xmark")
+                .foregroundColor(.white)
+              Text("close menu")
+                .foregroundColor(.white)
+                .font(.system(size: 14))
+                .padding(.leading, 15.0)
+            }
+          }.padding(.top, 20)
+            Divider()
+                .frame(height: 20)
+            Text("Sample item 1")
+                .foregroundColor(.white)
+            Text("Sample item 2")
+                .foregroundColor(.white)
+           Spacer()
+         }.padding()
+         .frame(maxWidth: .infinity, alignment: .leading)
+         .background(Color.black)
+         .edgesIgnoringSafeArea(.all)
     }
 }
