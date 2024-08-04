@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		04B7469D2C5E65AB009F6868 /* SideMenuHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B7469C2C5E65AB009F6868 /* SideMenuHome.swift */; };
+		04B746A12C5FB01F009F6868 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04B746A02C5FAEFF009F6868 /* Info.plist */; };
 		04D4FCC92C53E91F00AE91C5 /* inshotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D4FCC82C53E91F00AE91C5 /* inshotApp.swift */; };
 		04D4FCCB2C53E91F00AE91C5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D4FCCA2C53E91F00AE91C5 /* ContentView.swift */; };
 		04D4FCCD2C53E92100AE91C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04D4FCCC2C53E92100AE91C5 /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		04B7469C2C5E65AB009F6868 /* SideMenuHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuHome.swift; sourceTree = "<group>"; };
+		04B746A02C5FAEFF009F6868 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		04D4FCC52C53E91F00AE91C5 /* inshot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = inshot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04D4FCC82C53E91F00AE91C5 /* inshotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inshotApp.swift; sourceTree = "<group>"; };
 		04D4FCCA2C53E91F00AE91C5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 		04D4FCC72C53E91F00AE91C5 /* inshot */ = {
 			isa = PBXGroup;
 			children = (
+				04B746A02C5FAEFF009F6868 /* Info.plist */,
 				04D4FCC82C53E91F00AE91C5 /* inshotApp.swift */,
 				04D4FCCA2C53E91F00AE91C5 /* ContentView.swift */,
 				04D4FCF22C53E94500AE91C5 /* HomeView.swift */,
@@ -248,6 +251,7 @@
 			files = (
 				04D4FCD02C53E92100AE91C5 /* Preview Assets.xcassets in Resources */,
 				04D4FCCD2C53E92100AE91C5 /* Assets.xcassets in Resources */,
+				04B746A12C5FB01F009F6868 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,6 +444,8 @@
 				DEVELOPMENT_TEAM = SFJ8H3MDYC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = inshot/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Allow Inshot to access videos and media on your device?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -469,6 +475,8 @@
 				DEVELOPMENT_TEAM = SFJ8H3MDYC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = inshot/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Allow Inshot to access videos and media on your device?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

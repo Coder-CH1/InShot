@@ -6,6 +6,10 @@
 //
 
 import SwiftUI
+import Photos
+import AVKit
+import UIKit
+import PhotosUI
 
 struct HomeView: View {
     @State var showingModal = false
@@ -1015,3 +1019,37 @@ struct ResetPasswordTopView: View {
         }
     }
 }
+
+//struct VideoPicker: UIViewControllerRepresentable {
+//
+//    @Binding var video: VideoPlayer!
+//    func makeUIViewController(context: Context) -> some UIViewController {
+//        var config = PHPickerConfiguration()
+//        config.filter = .videos
+//        let picker = PHPickerViewController(configuration: config)
+//        picker.delegate = context.coordinator
+//        return picker
+//    }
+//    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
+//
+//    func makeCoordinator() -> () {
+//
+//    }
+//    func makeCoordinator() -> Coordinator {
+//        return Coordinator(video)
+//    }
+//
+//    class Coordinator: NSObject, PHPickerViewControllerDelegate {
+//        let parent: VideoPicker
+//        init(_ parent: VideoPicker) {
+//            self.parent = parent
+//        }
+//        func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+//            picker.dismiss(animated: true)
+//        }
+//    }
+////    func makeCoordinator() -> Coordinator {
+////        var parent: VideoPicker
+////        return Coordinator(parent)
+////    }
+//}
