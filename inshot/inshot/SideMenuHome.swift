@@ -14,17 +14,18 @@ struct SideMenuTest: View {
     var body: some View {
         NavigationView {
             List(1..<6) { index in
-                Text("Item \(index)")
+                Text("")
             }
-            .navigationBarTitle("Dashboard", displayMode: .inline)
+            .navigationBarTitle("", displayMode: .inline)
             .navigationBarItems(leading: (
                 Button(action: {
                     withAnimation {
                         self.showSideMenu.toggle()
                     }
                 }) {
-                    Image(systemName: "line.horizontal.3")
+                    Image(systemName: "person")
                         .imageScale(.large)
+                        .foregroundColor(.black)
                 }
             ))
         }.sideMenu(isShowing: $showSideMenu) {
