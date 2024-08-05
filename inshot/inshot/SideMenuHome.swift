@@ -52,17 +52,38 @@ struct SideMenu: View {
                 HStack {
                     Image(systemName: "xmark")
                         .foregroundColor(.white)
-                    Text("close menu")
-                        .foregroundColor(.white)
-                        .font(.system(size: 14))
-                        .padding(.leading, 15.0)
                 }
-            }.padding(.top, 20)
-            Divider()
-                .frame(height: 20)
-            Text("Sample item 1")
+            }
+            Spacer()
+                .frame(height: 90)
+            HStack {
+                Button {
+                    
+                } label: {
+                    Image(systemName: "person.fill")
+                        .font(.system(size: 60))
+                        .background(.white)
+                }
+                Spacer()
+                VStack(alignment: .leading) {
+                    Text("nickname")
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(.white)
+                    Text("ID number")
+                        .font(.system(size: 15, weight: .bold))
+                        .foregroundColor(.gray)
+                }
+            }
+            Spacer()
+                .frame(height: 50)
+            Rectangle()
+                .fill(.white)
+                .frame(height: 1)
+            Text("Help Center")
+                .font(.system(size: 14, weight: .medium))
                 .foregroundColor(.white)
-            Text("Sample item 2")
+            Text("Manage Account")
+                .font(.system(size: 14, weight: .medium))
                 .foregroundColor(.white)
             Spacer()
         }.padding()
